@@ -1,15 +1,16 @@
+import sys
+import re
+import math
+
 class Solution:
     def __init__(self, *args, **kwargs):
         super(Solution, self).__init__(*args, **kwargs)
-        
         self.n = int(input("Input your number of nodes: "))
-
         self.nodes_gen()
-        self.hello()
-
-    
-        self.nodes = dict(zip(self.list_nodes, self.list_mag_edges))
-        
+        self.nodes = dict(zip(self.list_nodes, [{} for n in range(len(self.list_nodes))]))
+        print(self.nodes)
+        self.nodes_connect()
+        print(self.nodes)
         self.final()
     
     def nodes_gen(self):
@@ -22,18 +23,17 @@ class Solution:
         print(self.list_nodes)
         return self.list_nodes
     
-    def hello(self):
-        self.verts = []
-        self.edges = []   
-        for node in range(self.n):
+    def nodes_connect(self):
+        self.src_node,self.dest_node = str, str
+        while True: 
             try:
-                self.usr_pick = input(f"Please enter a node between {self.list_nodes[0]} and {self.list_nodes[-1]} followed by a space and the number of connections you intend to create")
-                self.desc_node, self.pick_conn = self.usr_pick.split()[0], self.usr_pick.split()[2:]
-                assert(self.desc_node in self.list_nodes and 0<=int(self.pick_conn)<3)
-                for vert in range(self.pick_conn):
-                    self.verts.append(input("Enter connected vertex: "))
-                    self.edges.append(int(input("Enter the edge magnitude: ")))
-                self.list_mag_edges = list(zip(self.verts,self.edges))
+                print(self.nodes)
+                self.src_node = input(f"Please input the node you would like to create a connection for. The node has to be within '{self.list_nodes[0]} and {self.list_nodes[-1]}' followed by a : ")
+                assert(self.src_node in self.list_nodes)
+                self.dest_node = input("Enter the node you would like to traverse to: ")    
+                self.edge_mag = int(input(f"Enter the magnitude of edge {self.src_node+self.dest_node} OR {self.dest_node+self.src_node}: "))          
+                (self.nodes[self.dest_node])[self.src_node] = (self.nodes[self.src_node])[self.dest_node] = self.edge_mag
+                self.src_node = str
             except:
                 raise ValueError("Please input your data in the prescribed formats. [_Vertex_as_type_(str)_ <space> _Magnitude/Connection_as_type_(int)_]")
     
