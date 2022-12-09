@@ -38,48 +38,74 @@ class Solution:
             raise ValueError("Please input your data in the prescribed formats. [_Vertex_as_type_(str)_ <space> _Magnitude/Connection_as_type_(int)_]")
     
     def traverse(self):
-        self.verts = self.possibles = set()
+        self.verts = set()
+        self.possibles = set() 
+        self.d_verts = set()
         self.connected = {}
-        self.cost = 0
+        self.cost = self.d_cost = 0
         
         self.usr_path = input(f'Enter only two vertices to find their shortest path: ').upper()
+        self.alt_path = self.d_path = None
         
         self.src_node = self.origin = self.usr_path[0]
         self.dest_node = self.usr_path[-1]
         
         try:
             while ((self.src_node and self.dest_node in self.nodes.keys())):
-                
-                if self.src_node == self.dest_node:
-                    self.verts.add(self.src_node)
-                    break
-                elif self.src_node != self.dest_node:
-                    self.verts.add(self.src_node)
-                    pass
-                
+
                 assert(len(self.usr_path) == 2 and self.usr_path.isalpha())
                 
-                self.connected = {k: v for k,v in self.nodes.get(self.src_node).items() if k not in self.verts and self.origin}
-                print(self.possibles)
-        
+                self.connected = {k: v for k,v in self.nodes.get(self.src_node).items() if k not in self.verts and k not in self.origin}
+                print(self.connected)
+                
+                if self.dest_node in self.connected.keys() and self.src_node != self.origin and not self.d_verts:
+                    self.d_verts.update(self.verts)
+                    self.d_verts.add(self.src_node)
+                    self.d_cost = self.connected.get(self.dest_node) + self.cost
+                    print("I have verified I am traversing from a non-origin to the dest")
+                    pass
+                elif self.dest_node in self.connected.keys() and self.src_node == self.origin:
+                    self.d_verts.add(self.src_node)
+                    self.d_verts.add(self.dest_node)
+                    self.d_cost = self.connected.get(self.dest_node)
+                    print("I have verified I am travelling from the origin to the dest")
+                    pass
+                elif self.src_node == self.dest_node:
+                    self.verts.add(self.src_node)
+                    ("I have verified that I am at the destination node.")
+                    break
+                elif self.src_node != self.dest_node and self.dest_node not in self.connected.keys():
+                    self.verts.add(self.src_node)
+                    ("I have verified that I am traversing to a non-origin to a non-dest")
+                    pass
+                
                 self.possibles = {k for k,v in self.connected.items() if v == min(self.connected.values())}
-                print(self.possibles)
-        
+                
                 self.edge_mag = min(self.connected.values())
                 self.cost+=self.edge_mag
-                print(self.cost,self.verts,self.possibles)                 
+                print(self.cost,self.d_cost, self.verts,self.d_verts)                 
                 
                 self.src_node = list(self.possibles - self.verts)[0]
+                self.verts.add(self.src_node)
                 print(self.src_node)
         except:
                 raise("Please enter a valid path")
         
-        print(self.verts)
+        print(self.verts,self.d_verts)
+        
         join = lambda p : "".join(str(i) for i in p)
         
-        self.path = (join(self.verts))
-        return (self.path)
-    
+        if self.verts:
+            self.alt_path = (join(self.verts))
+        else:
+            pass
+        
+        if self.d_verts:
+            self.d_path = (join(self.d_verts))
+        else:
+            pass
+        
+        return ((self.d_path, self.d_cost), (self.alt_path, self.cost))
      
     def final(self):
         return self.nodes
