@@ -1,3 +1,11 @@
+'''
+Program: MST//Dijkstra's Algorithm for Directed Graphs
+Author: Tevin Aduma
+Description: The intention is to create a program that solves Dijkstra's Greedy Algo problem
+             by using inputs to determine the least costly path between source and destination
+             vertices. 
+'''
+
 class Solution:
     def __init__(self, *args, **kwargs):
         super(Solution, self).__init__(*args, **kwargs)
@@ -14,10 +22,12 @@ class Solution:
     def nodes_gen(self):
         i=65
         self.list_nodes = []
+
         for node in range(self.n):
             self.list_nodes.append(chr(i))
             i+=1            
         print(self.list_nodes)
+
         return self.list_nodes
     
     def node_connect(self):
@@ -26,13 +36,17 @@ class Solution:
 
         try:
             print(self.nodes)
+            
             self.src = input(f"Please input the node you would like to create a connection for. The node has to be within '{self.list_nodes[0]} and {self.list_nodes[-1]}: ").upper()
             self.dest = input("Enter the node you would like to traverse to: ").upper()    
+            
             assert(self.dest in self.list_nodes)
+            
             if ("end" in [self.src, self.dest]):
                 return self
             self.edge_mag = int(input(f"Enter the magnitude of edge {self.src+self.dest} OR {self.dest+self.src}: "))          
             (self.nodes[self.dest])[self.src] = (self.nodes[self.src])[self.dest] = self.edge_mag
+        
         except: 
             raise ValueError("Please input your data in the prescribed formats. [_Vertex_as_type_(str)_ <space> _Magnitude/Connection_as_type_(int)_]")
     
