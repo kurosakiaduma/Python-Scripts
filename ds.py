@@ -76,7 +76,7 @@ class Solution:
                     break
                 elif self.src_node != self.dest_node and self.dest_node not in self.connected.keys():
                     self.verts.add(self.src_node)
-                    ("I have verified that I am traversing to a non-origin to a non-dest")
+                    print("I have verified that I am traversing to a non-origin to a non-dest")
                     pass
                 
                 self.possibles = {k for k,v in self.connected.items() if v == min(self.connected.values())}
@@ -85,8 +85,8 @@ class Solution:
                 self.cost+=self.edge_mag
                 print(self.cost,self.d_cost, self.verts,self.d_verts)                 
                 
-                self.src_node = list(self.possibles - self.verts)[0]
                 self.verts.add(self.src_node)
+                self.src_node = list(self.possibles - self.verts)[0]
                 print(self.src_node)
         except:
                 raise("Please enter a valid path")
@@ -105,7 +105,19 @@ class Solution:
         else:
             pass
         
-        return ((self.d_path, self.d_cost), (self.alt_path, self.cost))
-     
+        self.paths = ((self.d_path, self.d_cost), (self.alt_path, self.cost))
+        
+        return self.optimizer()
+    
+    def optimizer(self):
+        if self.paths[0][1] < self.paths[1][1]:
+            return self.paths[0]
+        elif self.paths[0][0] == self.paths[1][0]:
+            return self.paths[0]
+        elif self.paths[0][1] > self.paths[1][1]:
+            return self.paths[1]
+        elif self.paths[0][1] == self.paths[1][1]:
+            return self.paths
+        
     def final(self):
         return self.nodes
