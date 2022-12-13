@@ -1,5 +1,11 @@
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:   
+        
+        if min(prices) == prices[-1]:
+            prices.pop()
+        else:
+            pass
+        
         day = prices.index(min(prices))
         alt_prices = prices[day:]
         prices = prices[:day]
