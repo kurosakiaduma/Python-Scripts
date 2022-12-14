@@ -46,12 +46,15 @@ Contact: kurosakiaduma@gmail.com 🙋🏾‍♂️
             self.list_nodes.append(chr(i))
             i+=1            
         print(self.list_nodes)
-        self.nodes = dict(zip(self.list_nodes, [{} for n in range(len(self.list_nodes))]))
+        
+
+        
 
         return self.list_nodes
     
     def node_connect(self):
         
+        self.nodes = dict(zip(self.list_nodes, [{} for n in range(len(self.list_nodes))]))
         self.src = self.dest = str
         self.edge_mag = int
 
@@ -170,6 +173,12 @@ Contact: kurosakiaduma@gmail.com 🙋🏾‍♂️
                 return self.paths[0]
             else:
                 return f"There is no direct or indirect connection between {self.origin} and {self.dest}. \nPlease check your input."
-            
+    
     def final(self):
         return f'{self.nodes}'
+    
+    def clear(self):
+        self.nodes.clear()
+    
+if __name__ == "__main__":
+    Solution()
