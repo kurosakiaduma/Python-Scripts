@@ -9,17 +9,36 @@ Description: The intention is to create a program that solves Dijkstra's Greedy 
 class Solution:
     def __init__(self, *args, **kwargs):
         super(Solution, self).__init__(*args, **kwargs)
-
-        self.n = int(input("Input your number of nodes: "))
-        self.nodes_gen()
-        self.nodes = dict(zip(self.list_nodes, [{} for n in range(len(self.list_nodes))]))
-
-        self.node_connect()
-        print(self.nodes)
+        while True:
+            self.start()
         
-        self.final()
-    
+    def start(self):
+        print("""Welcome to the\nVERTEX-TRAVERSAL OPTIMIZER\nPlease choose one of the following options\nto proceed with the program.\n
+                1. Enter the number of vertices in your graph\n
+                2. Connect a node/vertex to another\n
+                3. Print out your graph in a dictionary\n
+Contact: kurosakiaduma@gmail.com 🙋🏾‍♂️ 
+                """)
+        inp = int(input(":>"))
+        print({inp})
+        try:
+            assert inp in range(0,5)
+            if inp == 1:
+                self.nodes_gen()
+            elif inp == 2:
+                self.node_connect()
+            elif inp == 3:
+                self.final()
+            elif inp == 4:
+                self.traverse()
+            elif inp == 0:
+                quit(0)
+            pass
+        except:
+            raise ValueError("Please enter a value between 1 and 3")
+            
     def nodes_gen(self):
+        self.n = int(input("Input your number of nodes: "))
         i=65
         self.list_nodes = []
 
@@ -27,10 +46,12 @@ class Solution:
             self.list_nodes.append(chr(i))
             i+=1            
         print(self.list_nodes)
+        self.nodes = dict(zip(self.list_nodes, [{} for n in range(len(self.list_nodes))]))
 
         return self.list_nodes
     
     def node_connect(self):
+        
         self.src = self.dest = str
         self.edge_mag = int
 
@@ -46,6 +67,8 @@ class Solution:
                 return self
             self.edge_mag = int(input(f"Enter the magnitude of edge {self.src+self.dest} OR {self.dest+self.src}: "))          
             (self.nodes[self.dest])[self.src] = (self.nodes[self.src])[self.dest] = self.edge_mag
+            
+            print(self.nodes)
         
         except: 
             raise ValueError("Please input your data in the prescribed formats. [_Vertex_as_type_(str)_ <space> _Magnitude/Connection_as_type_(int)_]")
@@ -149,4 +172,4 @@ class Solution:
                 return f"There is no direct or indirect connection between {self.origin} and {self.dest}. \nPlease check your input."
             
     def final(self):
-        return self.nodes
+        return f'{self.nodes}'
