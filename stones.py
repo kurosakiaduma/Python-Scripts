@@ -11,3 +11,7 @@ def stones(n, a, b):
         results.append((b*(m))+(a*m2))
         m-=1
         m2+=1
+    
+    return sorted(results)
+
+    
