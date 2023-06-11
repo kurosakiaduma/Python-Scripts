@@ -1,9 +1,3 @@
-def determinant(k):
-    if k % 2 == 0: 
-        return "Yes"
-    else:
-        return "No"
-
 def appendAndDelete(s: str, t: str, k: int) -> str:
     """
     Determines whether it is possible to convert string `s` to string `t` in exactly `k` operations.
@@ -26,16 +20,32 @@ def appendAndDelete(s: str, t: str, k: int) -> str:
         
             elif _ == (len(s)-1):
                 k -= len(t[_+1:])
-                return determinant(k)
+                if k >= 2*len(s) or k % 2 == 0:
+                    return "Yes"
+                else:
+                    return "No"
                 
             elif _ == (len(t)-1):
                 k -= len(s[_+1:])
-                return determinant(k)
+                if k >= 2*len(t) or k % 2 == 0:
+                    return "Yes"
+                else:
+                    return "No"
             
             else:
                 pass
         
         else:
+            print(f"{k} {len(t[_:])} len{(s[_:])}")
             k -= len(t[_:])+len(s[_:])
-            return determinant(k)
-            
+            if k == 0:
+                return "Yes"
+            elif k > 0:
+                if not(s[:_]):
+                    return "Yes"
+                else:
+                    if k == len(s[:_]) * 2:
+                        return "Yes"
+                    return "No"
+            else:
+                return "No" 
