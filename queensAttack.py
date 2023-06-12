@@ -10,7 +10,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
     :return: An integer representing the number of squares the queen can attack
     """
     # Convert obstacles to a set for faster lookup
-    obstacles = set(obstacles)
+    obstacles = set(tuple(obs) for obs in obstacles)
 
     # Initialize counts for each direction
     count_up = count_down = count_left = count_right = 0
