@@ -1,91 +1,67 @@
-def resetShifter():
-    shifter = 0
-    return shifter
-
 def queensAttack(n, k, r_q, c_q, obstacles):
-    # Write your code here
-    possibles = []
-    init = [r_q, c_q]
-    
-    shifter = resetShifter()
-    while (init[0]+shifter) <= n:
-        shifter += 1
-        v_ups = [init[0]+shifter, init[1]]
-        if v_ups[0] <= n and v_ups != init:
-            if v_ups in obstacles:
-                break
-            possibles.append(v_ups)
-            
-        
-    shifter = resetShifter()
-    while (init[0]-shifter) >= 1:
-        shifter+=1
-        v_downs = [init[0]-shifter, init[1]]
-        if v_downs[0] >= 1 and v_downs != init:
-            if v_downs in obstacles:
-                break
-            possibles.append(v_downs)
-    
-    
-    shifter = resetShifter()
-    while (init[1]-shifter) >= 1:
-        shifter += 1
-        l_lefts = [init[0], init[1]-shifter]            
-        if l_lefts[1] >= 1 and l_lefts != init:
-            if l_lefts in obstacles:
-                break
-            possibles.append(l_lefts)
+    """
+    Given the position of a queen on an n by n chessboard and the positions of k obstacles, returns the number of squares the queen can attack.
 
-        
-    shifter = resetShifter()
-    while (init[1]+shifter) <= n:
-        shifter+=1
-        l_rights = [init[0], init[1]+shifter]
-        if l_rights[1] <= n and l_rights != init:
-            if l_rights in obstacles:
-                break
-            possibles.append(l_rights)
+    :param n: An integer representing the number of rows and columns on the chessboard
+    :param k: An integer representing the number of obstacles on the chessboard
+    :param r_q: An integer representing the row position of the queen
+    :param c_q: An integer representing the column position of the queen
+    :param obstacles: A list of tuples representing the positions of the obstacles on the chessboard
+    :return: An integer representing the number of squares the queen can attack
+    """
+    # Convert obstacles to a set for faster lookup
+    obstacles = set(obstacles)
 
+    # Initialize counts for each direction
+    count_up = count_down = count_left = count_right = 0
+    count_up_left = count_up_right = count_down_left = count_down_right = 0
 
-    shifter = resetShifter()    
-    while (init[0]+shifter <= n and init[1]-shifter >= 1):
-        shifter+=1
-        lu_ds = [init[0]+shifter, init[1]-shifter]        
-        if lu_ds[0] <= n and lu_ds[1] >= 1:
-            if lu_ds in obstacles:
-                break
-            possibles.append(lu_ds)
+    # Check upwards direction
+    for i in range(r_q + 1, n + 1):
+        if (i, c_q) in obstacles:
+            break
+        count_up += 1
 
+    # Check downwards direction
+    for i in range(r_q - 1, 0, -1):
+        if (i, c_q) in obstacles:
+            break
+        count_down += 1
 
-    shifter = resetShifter()
-    while (init[0]-shifter >= 1 and init[1]-shifter >= 1):
-        shifter+=1
-        ld_ds = [init[0]-shifter, init[1]-shifter]
-        if ld_ds[0] >= 1 and ld_ds[1] >= 1:
-            if ld_ds in obstacles:
-                break
-            possibles.append(ld_ds)
+    # Check left direction
+    for i in range(c_q - 1, 0, -1):
+        if (r_q, i) in obstacles:
+            break
+        count_left += 1
 
-        
-    shifter = resetShifter()
-    while (init[0]+shifter <= n and init[1]+shifter <= n):
-        shifter+=1
-        ru_ds = [init[0]+shifter, init[1]+shifter]
-        if ru_ds[0] <= n and ru_ds[1] <= n:
-            if ru_ds in obstacles:
-                break
-            possibles.append(ru_ds)
+    # Check right direction
+    for i in range(c_q + 1, n + 1):
+        if (r_q, i) in obstacles:
+            break
+        count_right += 1
 
-             
-    shifter = resetShifter()
-    while (init[0]-shifter >= 1 and init[1]+shifter <= n):
-        shifter+=1
-        rd_ds = [init[0]-shifter, init[1]+shifter]
-        if rd_ds[0] >= 1 and rd_ds[1] <= n:
-            if rd_ds in obstacles:
-                break
-            possibles.append(rd_ds)
-        
-        
-    print(possibles,"\n",len(possibles))
-    return len(possibles)
+    # Check up-left diagonal
+    for i in range(1, min(r_q - 1, c_q - 1) + 1):
+        if (r_q - i, c_q - i) in obstacles:
+            break
+        count_up_left += 1
+
+    # Check up-right diagonal
+    for i in range(1, min(n - r_q, n - c_q) + 1):
+        if (r_q + i, c_q + i) in obstacles:
+            break
+        count_up_right += 1
+
+    # Check down-left diagonal
+    for i in range(1, min(r_q - 1, n - c_q) + 1):
+        if (r_q - i, c_q + i) in obstacles:
+            break
+        count_down_left += 1
+
+    # Check down-right diagonal
+    for i in range(1, min(n - r_q, c_q - 1) + 1):
+        if (r_q + i, c_q - i) in obstacles:
+            break
+        count_down_right += 1
+
+    return count_up + count_down + count_left + count_right + count_up_left + count_up_right + count_down_left + count_down_right
