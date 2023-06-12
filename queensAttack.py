@@ -28,7 +28,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
     
     
     shifter = resetShifter()
-    while (init[1]+shifter) <= n:
+    while (init[1]-shifter) >= 1:
         shifter += 1
         l_lefts = [init[0], init[1]-shifter]            
         if l_lefts[1] >= 1 and l_lefts != init:
@@ -38,7 +38,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
 
         
     shifter = resetShifter()
-    while (init[1]-shifter) >= 1:
+    while (init[1]+shifter) <= n:
         shifter+=1
         l_rights = [init[0], init[1]+shifter]
         if l_rights[1] <= n and l_rights != init:
@@ -61,7 +61,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
     while (init[0]-shifter >= 1 and init[1]-shifter >= 1):
         shifter+=1
         ld_ds = [init[0]-shifter, init[1]-shifter]
-        if ld_ds[0] >= 1 and lu_ds[1] >= 1:
+        if ld_ds[0] >= 1 and ld_ds[1] >= 1:
             if ld_ds in obstacles:
                 break
             possibles.append(ld_ds)
@@ -78,13 +78,14 @@ def queensAttack(n, k, r_q, c_q, obstacles):
 
              
     shifter = resetShifter()
-    while (init[0]-shifter >= 1 and init[1]+shifter >= n):
+    while (init[0]-shifter >= 1 and init[1]+shifter <= n):
         shifter+=1
         rd_ds = [init[0]-shifter, init[1]+shifter]
-        if rd_ds[0] >= 1 and ru_ds[1] <= n:
+        if rd_ds[0] >= 1 and rd_ds[1] <= n:
             if rd_ds in obstacles:
                 break
             possibles.append(rd_ds)
         
         
-    print(len(possibles))
+    print(possibles,"\n",len(possibles))
+    return len(possibles)
