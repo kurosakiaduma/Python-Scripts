@@ -1,7 +1,7 @@
 '''
 Program: MST//Dijkstra's Algorithm for Directed Graphs
 Author: Tevin Aduma
-Description: The intention is to create a program that solves Dijkstra's Greedy Algo problem
+Description: The intention is to create a program that solves Dijkstra's Greedy Algorithm problem
              by using inputs to determine the least costly path between source and destination
              vertices. 
 '''
