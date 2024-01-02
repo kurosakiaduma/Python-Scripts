@@ -11,8 +11,7 @@ def findcurrentSum(arr: list[int], k) -> int:
     i = 0
     
     while (i+(k-1)) < len(arr):
-        currentSum = sum(arr[i:i+k])
-        if currentSum != 0:
+        if (currentSum := sum(arr[i:i+k])) != 0:
             highestSum = max(currentSum, highestSum)
         i+=1
     
