@@ -1,5 +1,3 @@
-import requests
-import threading
 from bs4 import BeautifulSoup
 import time
 from tqdm import tqdm
@@ -13,6 +11,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver import Chrome
 from subprocess import CREATE_NO_WINDOW
+from security import safe_requests
 
 gogo_home_url = 'https://gogoanime.cl' 
 parser = 'html.parser'
@@ -21,7 +20,7 @@ dub_extension = ' (Dub)'
 def search(keyword: str) -> list[BeautifulSoup]:
     search_url = '/search.html?keyword='
     search = gogo_home_url + search_url + keyword
-    response = requests.get(search).content
+    response = safe_requests.get(search).content
     soup = BeautifulSoup(response, parser)
     results_page = soup.find('ul', class_="items")
     results = results_page.find_all('li')
@@ -42,7 +41,7 @@ def generate_episode_page_links(start_episode: int, end_episode: int, anime_page
     return episode_page_links
 
 def get_download_page(episode_page_link: str) -> str:
-    response = requests.get(episode_page_link).content
+    response = safe_requests.get(episode_page_link).content
     soup = BeautifulSoup(response, parser)
     soup = soup.find('li', class_='dowloads')
     download_link = soup.find('a', target = '_blank')['href']
@@ -107,7 +106,7 @@ def get_download_page_links(episode_page_links: list[str]) -> list[str]:
     download_page_links = []
     with tqdm(total=len(episode_page_links), desc=' Fetching download page links', unit='eps') as progress_bar:
         for idx, episode_page_link in enumerate(episode_page_links):
-            response = requests.get(episode_page_link).content
+            response = safe_requests.get(episode_page_link).content
             soup = BeautifulSoup(response, parser)
             soup = soup.find('li', class_='dowloads')
             link = soup.find('a', target = '_blank')['href']
@@ -121,7 +120,7 @@ def calculate_download_size(download_links: str) -> int:
     total_size = 0
     with tqdm(total=len(download_links), desc=' Calculating total download size', unit='eps') as progress_bar:
         for idx, link in enumerate(download_links):
-            response = requests.get(link, stream=True)
+            response = safe_requests.get(link, stream=True)
             size = response.headers.get('content-length', 0)
             total_size += int(size)
             progress_bar.update(idx+1 - progress_bar.n)
@@ -151,7 +150,7 @@ class Download():
             self.paused = not self.paused
 
     def download(self):
-        response = requests.get(self.link, stream=True)
+        response = safe_requests.get(self.link, stream=True)
         total = int(response.headers.get('content-length', 0))
         file_title = f'{self.title}{self.extension}'
         file_path = os.path.join(self.path, file_title)
@@ -174,7 +173,7 @@ class Download():
             progress_bar.set_description(f'Completed {self.title}')
 
 def extract_poster_summary_and_episode_count(anime_page_link: str) -> tuple[str]:
-    response = requests.get(anime_page_link).content
+    response = safe_requests.get(anime_page_link).content
     soup = BeautifulSoup(response, parser)
     poster = soup.find(class_='anime_info_body_bg').find('img')['src']
     summary = soup.find_all('p', class_='type')[1].get_text().replace('Plot Summary: ', '')
