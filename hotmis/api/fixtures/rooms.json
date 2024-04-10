@@ -1,0 +1,68 @@
+[
+    {
+        "model": "api.room",
+        "pk": 1,
+        "fields": {
+            "r_id": 1,
+            "rname": "Everest",
+            "price_rate": 40.00,
+            "size": "Queen (2+)",
+            "available": true
+        }
+    },
+    {
+        "model": "api.room",
+        "pk": 2,
+        "fields": {
+            "r_id": 2,
+            "rname": "Rushmore",
+            "price_rate": 20.00,
+            "size": "Single (1)",
+            "available": true
+        }
+    },
+    {
+        "model": "api.room",
+        "pk": 3,
+        "fields": {
+            "r_id": 3,
+            "rname": "Himalayas",
+            "price_rate": 45.00,
+            "size": "Queen (2+)",
+            "available": true
+        }
+    },
+    {
+        "model": "api.room",
+        "pk": 4,
+        "fields": {
+            "r_id": 4,
+            "rname": "Kilimanjaro",
+            "price_rate": 35.00,
+            "size": "Queen (2+)",
+            "available": true
+        }
+    },
+    {
+        "model": "api.room",
+        "pk": 5,
+        "fields": {
+            "r_id": 5,
+            "rname": "Kenya",
+            "price_rate": 20.00,
+            "size": "Single (1)",
+            "available": true
+        }
+    },
+    {
+        "model": "api.room",
+        "pk": 6,
+        "fields":{
+            "r_id":6,
+            "rname":"Kenya",
+            "price_rate":40.00,
+            "size": "Double (2)",
+            "available": true
+        }
+    }
+]

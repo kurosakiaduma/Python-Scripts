@@ -1,0 +1,2 @@
+def fairLoaves(B):
+    if 

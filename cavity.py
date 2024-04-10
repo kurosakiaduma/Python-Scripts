@@ -6,7 +6,7 @@ import sys
 
 def cavityMap(grid):
     
-    for i in grid:
+    for idx, i in enumerate(grid):
         if len(i) <= 2:
             pass
         else:
@@ -20,8 +20,12 @@ def cavityMap(grid):
                 
             cavity = max(list_int)
             if cavity > front and cavity > end:
-                grid[grid.index(cavity)] = "X"
+                grid[idx] = i.replace(str(cavity), "X")
             else:
                 pass
                 
-    return grid    
+    return grid
+
+
+if __name__ == "__main__":
+    cavityMap(['1112', '1912', '1892', '1234'])
