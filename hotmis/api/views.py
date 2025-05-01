@@ -29,4 +29,4 @@ class AvailableRooms(APIView):
         return Response(serializer.data)
     
 def availableRooms(request):
-    response =  requests.get('http://127.0.0.1:8000/apis/available-rooms')
+    response =  requests.get('http://127.0.0.1:8000/apis/available-rooms', timeout=60)
